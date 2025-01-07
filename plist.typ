@@ -1,10 +1,10 @@
 #import "utils.typ": *
 
-/// Read a plist xml file
+/// Parse a plist xml file
 ///
 /// Default datetime parser *ONLY* support RFC 3339 format datetime, *NOT* ISO 8601!
 ///
-/// - path ([xml]): path to xml file
+/// - xml-data (dictionary): dictionary read from xml file
 /// - datetime-parser (function): parser of datetime
 /// -> dictionary
 #let plist(xml-data, datetime-parser: parse-rfc3339) = {
