@@ -1,0 +1,8 @@
+[package]
+name = "plist"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["HPCesia"]
+license = "MIT"
+description = "A package to parse Plist XML file"
+exclude = ["test"]
