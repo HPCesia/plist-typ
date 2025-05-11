@@ -21,9 +21,9 @@ git clone https://github.com/HPCesia/plist-typ.git "0.1.0"
 Here’s a simple example demonstrating how to use the `plist.typ` package in a Typst document:
 
 ```typst
-#import "@local/plist:0.1.0": plist
+#import "@local/plist:0.2.0": plist
 
-#let data = plist(xml("path/to/your/textmate-theme.tmTheme"))
+#let data = plist(read("path/to/your/textmate-theme.tmTheme", encoding: none))
 #let foreground = data.settings.at(0).settings.at("foreground", default: none)
 
 #set raw(theme: "path/to/your/textmate-theme.tmTheme")
@@ -38,4 +38,4 @@ Contributions are welcome! Feel free to submit issues, feature requests, or pull
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+`plist.typ` is licensed under the [MIT License](LICENSE).
