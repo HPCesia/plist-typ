@@ -1,41 +1,55 @@
-# plist.typ
+# Pleast
 
-`plist.typ` is a Typst package designed to parse and process Property List files, which are commonly used to store configuration data, especially in macOS and iOS applications. This package enhances the experience of reading plist files by optimizing the process. It takes plist files read using Typst's built-in `xml()` function and converts them into a more user-friendly dictionary format.
+`pleast` is a Typst package designed to parse and process Property List files, which are commonly used to store configuration data, especially in macOS and iOS applications. This package enhances the experience of reading plist files by optimizing the process. It takes plist files read using Typst's built-in `xml()` function and converts them into a more user-friendly dictionary format.
 
 ## Notes
 - **Data Types**: The package supports plist data types: `dict`, `array`, `date`, `string`, `integer`, `real`, `boolean`, and `data`. But the `date` type **ONLY** support [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format, and `data` will be process as a string, because you can use another package [based](https://typst.app/universe/package/based) to process Base64 data.
 
 ## Installation
 
-Place the `plist.typ` file in Typst's local package directory:
+Import `@preview/pleast:0.2.0` in your `.typ` file.
 
-```bash
-# Assuming Typst's local package directory is ~/.local/share/typst/packages/local
-mkdir -p ~/.local/share/typst/packages/local/plist
-cd ~/.local/share/typst/packages/local/plist
-git clone https://github.com/HPCesia/plist-typ.git "0.1.0"
+```typst
+#import "@preview/pleast:0.2.0": plist
 ```
 
 ## Usage Example
 
-Here’s a simple example demonstrating how to use the `plist.typ` package in a Typst document:
+Here’s a simple example demonstrating how to use the `pleast` package in a Typst document:
 
 ```typst
-#import "@local/plist:0.2.0": plist
+#import "@preview/pleast:0.2.0": plist
 
 #let data = plist(read("path/to/your/textmate-theme.tmTheme", encoding: none))
 #let foreground = data.settings.at(0).settings.at("foreground", default: none)
+#let background = data.settings.at(0).settings.at("background", default: none)
 
 #set raw(theme: "path/to/your/textmate-theme.tmTheme")
 #show raw: set text(fill: rgb(foreground)) if foreground != none
+
+#place(
+  block(
+    radius: 0.5em,
+    inset: 1em,
+    fill: if background != none { rgb(background) } else { none },
+    ```rust
+    fn main() {
+      println!("Hello, world!");
+    }
+    ```,
+  ),
+  center,
+)
 ```
 
-This is also a most common usage because there are so many tools to convert plist to json, but typst only support `.tmTheme` file as raw code synatx theme.
+With the Monokai theme, the result of above code is:
 
-## Contributing
+<div align="center">
+  <img src="assets/example.svg" alt="Example result with Monokai theme" />
+</div>
 
-Contributions are welcome! Feel free to submit issues, feature requests, or pull requests via [GitHub Issues](https://github.com/hpcesia/plist-typ/issues).
+This might be the most common usage, because typst only support `.tmTheme` file as raw code synatx theme.
 
 ## License
 
-`plist.typ` is licensed under the [MIT License](LICENSE).
+`pleast` is licensed under the [MIT](LICENSE) license.
