@@ -54,6 +54,7 @@
       return parse-rfc3339(children.at(0))
     } else if type == "string" {
       let children = get-children(node)
+      if children.len() == 0 { return "" }
       return children.at(0)
     } else if type == "integer" {
       let children = get-children(node)
