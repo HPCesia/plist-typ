@@ -12,8 +12,8 @@
                 <string>Mässig, Maß</string>
                 <key>aTrueValue</key>
                 <true/>
-                <key>anotherString</key>
-                <string>&lt;hello &amp; hi there!&gt;</string>
+                <key>emptyString</key>
+                <string></string>
         </dict>
         <key>aFloat</key>
         <real>0.1</real>
