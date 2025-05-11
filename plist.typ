@@ -4,17 +4,17 @@
 ///
 /// Default datetime parser *ONLY* support RFC 3339 format datetime, *NOT* ISO 8601!
 ///
-/// - xml-data (dictionary): dictionary read from xml file
+/// - xml-raw (xml): xml format string
 /// - datetime-parser (function): parser of datetime
 /// -> dictionary
-#let plist(xml-data, datetime-parser: parse-rfc3339) = {
-  let data = xml-data.at(0)
+#let plist(xml-raw, datetime-parser: parse-rfc3339) = {
+  let data = xml(xml-raw).at(0)
   assert(data.tag == "plist", message: "failed to parse plist (not a plist)")
 
   let get-children(node) = {
-    assert(type(node) == "dictionary", message: "node must be a dictionary")
+    assert(type(node) == dictionary, message: "node must be a dictionary")
     node.children.filter(x => {
-      type(x) != "string" or x.trim() != ""
+      type(x) != str or x.trim() != ""
     })
   }
 

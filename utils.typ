@@ -21,7 +21,7 @@
 /// - offset (duration): time offset of output datetime
 /// -> datetime
 #let parse-rfc3339(date-str, offset: duration(hours: 0, minutes: 0)) = {
-  assert(type(date-str) == "string")
+  assert(type(date-str) == str)
   date-str = date-str.trim()
 
   // parse year, 4 digit
