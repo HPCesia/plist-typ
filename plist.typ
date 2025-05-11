@@ -4,15 +4,16 @@
 ///
 /// Default datetime parser *ONLY* support RFC 3339 format datetime, *NOT* ISO 8601!
 ///
-/// - xml-raw (xml): xml format string
+/// - xml-raw (bytes): xml format bytes
 /// - datetime-parser (function): parser of datetime
 /// -> dictionary
 #let plist(xml-raw, datetime-parser: parse-rfc3339) = {
+  assert.eq(type(xml-raw), bytes, message: "`xml-raw` must be bytes")
   let data = xml(xml-raw).at(0)
-  assert(data.tag == "plist", message: "failed to parse plist (not a plist)")
+  assert.eq(data.tag, "plist", message: "failed to parse plist (not a plist)")
 
   let get-children(node) = {
-    assert(type(node) == dictionary, message: "node must be a dictionary")
+    assert.eq(type(node), dictionary, message: "node must be a dictionary")
     node.children.filter(x => {
       type(x) != str or x.trim() != ""
     })
@@ -38,7 +39,7 @@
       let dict = (:)
       let index = 0
       while index < children.len() {
-        assert(children.at(index).tag == "key", message: "failed to parse plist (dict has mismatched key-value pair)")
+        assert.eq(children.at(index).tag, "key", message: "failed to parse plist (dict has mismatched key-value pair)")
         let key = get-children(children.at(index)).at(0)
         let value = parse(children.at(index + 1))
         dict.insert(key, value)
