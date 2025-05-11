@@ -5,4 +5,4 @@ entrypoint = "lib.typ"
 authors = ["HPCesia <me@hpcesia.com>"]
 license = "MIT"
 description = "A package to parse Plist XML file"
-exclude = ["test", "test.typ"]
+exclude = ["test"]
