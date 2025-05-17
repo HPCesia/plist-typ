@@ -1,14 +1,42 @@
 #import "utils.typ": *
 
-/// Parse a plist xml file
+#let valid-types = (
+  "dict",
+  "array",
+  "date",
+  "string",
+  "integer",
+  "real",
+  "true",
+  "false",
+  "data",
+)
+
+#let default-parsers = (
+  date: parse-rfc3339,
+  integer: int,
+  real: float,
+  data: it => it
+)
+
+/// Parse a bytes of Property List (plist) file into a dictionary.
 ///
-/// Default datetime parser *ONLY* support RFC 3339 format datetime, *NOT* ISO 8601!
+/// Default `date` parser *ONLY* support RFC 3339 format datetime, *NOT* ISO 8601!
 ///
 /// - xml-raw (bytes): xml format bytes
-/// - datetime-parser (function): parser of datetime
+/// - parsers (dictionary): custom parsers for plist types,
+///   *ONLY* accept `date`, `integer`, `real`, and `data` types
 /// -> dictionary
-#let plist(xml-raw, datetime-parser: parse-rfc3339) = {
+#let plist(xml-raw, parsers: (:)) = {
+  // Parameter validation
   assert.eq(type(xml-raw), bytes, message: "`xml-raw` must be bytes")
+  assert.eq(type(parsers), dictionary, message: "`parsers` must be a dictionary")
+
+  // Parser merge
+  parsers = default-parsers + parsers
+  assert.eq(parsers.keys().sorted(), default-parsers.keys().sorted(), message: "invalid parsers")
+
+  // Validate xml
   let data = xml(xml-raw).at(0)
   assert.eq(data.tag, "plist", message: "failed to parse plist (not a plist)")
 
@@ -19,18 +47,12 @@
     })
   }
 
+  let get-parser(t) = {
+    assert(default-parsers.keys().contains(t), message: "invalid type: " + t)
+    parsers.at(t)
+  }
+
   let parse(node) = {
-    let valid-types = (
-      "dict",
-      "array",
-      "date",
-      "string",
-      "integer",
-      "real",
-      "true",
-      "false",
-      "data",
-    )
     let type = node.tag
     assert(valid-types.contains(type), message: "invalid type: " + type)
 
@@ -51,17 +73,17 @@
       return children.map(parse)
     } else if type == "date" {
       let children = get-children(node)
-      return datetime-parser(children.at(0))
+      return get-parser("date")(children.at(0))
     } else if type == "string" {
       let children = get-children(node)
       if children.len() == 0 { return "" }
       return children.at(0)
     } else if type == "integer" {
       let children = get-children(node)
-      return int(children.at(0))
+      return get-parser("integer")(children.at(0))
     } else if type == "real" {
       let children = get-children(node)
-      return float(children.at(0))
+      return get-parser("real")(children.at(0))
     } else if type == "true" {
       return true
     } else if type == "false" {
@@ -69,7 +91,7 @@
     } else if type == "data" {
       let children = get-children(node)
       let data = children.at(0).trim()
-      return data
+      return get-parser("data")(data)
     }
   }
 
