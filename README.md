@@ -1,13 +1,13 @@
 # Pleast
 
-`pleast` is a Typst package designed to parse and process Property List files, which are commonly used to store configuration data, especially in macOS and iOS applications. This package enhances the experience of reading plist files by optimizing the process. It takes plist files read using Typst's built-in `xml()` function and converts them into a more user-friendly dictionary format.
+`pleast` is a Typst package designed to parse and process Property List files, which are commonly used to store configuration data, especially `.tmTheme` files. This package enhances the experience of reading plist files by optimizing the process. It takes plist files read using Typst's built-in `xml()` function and converts them into a more user-friendly dictionary format.
 
 ## Usages
 
-Import `@preview/pleast:0.2.0` in your `.typ` file.
+Import `@preview/pleast:0.3.0` in your `.typ` file.
 
 ```typst
-#import "@preview/pleast:0.2.0": plist
+#import "@preview/pleast:0.3.0": plist
 ```
 
 ### TextMate Theme Reader
@@ -15,7 +15,7 @@ Import `@preview/pleast:0.2.0` in your `.typ` file.
 Typst only supports `.tmTheme` files, a type of Plist format file, for customizing syntax highlighting themes. Here is an example, using the background and foreground colors defined in `.tmTheme` in code blocks, which are two properties that would normally be ignored by Typst.
 
 ```typst
-#import "@preview/pleast:0.2.0": plist
+#import "@preview/pleast:0.3.0": plist
 
 #let data = plist(read("path/to/your/textmate-theme.tmTheme", encoding: none))
 #let foreground = data.settings.at(0).settings.at("foreground", default: none)
@@ -75,7 +75,7 @@ A plist xml file `HelloWorld.xml` with Base64 data:
 And a typst file:
 
 ```typst
-#import "@preview/pleast:0.2.0": plist
+#import "@preview/pleast:0.3.0": plist
 #import "@preview/based:0.2.0": base64
 
 #let data = plist(
