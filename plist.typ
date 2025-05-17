@@ -51,7 +51,7 @@
       return children.map(parse)
     } else if type == "date" {
       let children = get-children(node)
-      return parse-rfc3339(children.at(0))
+      return datetime-parser(children.at(0))
     } else if type == "string" {
       let children = get-children(node)
       if children.len() == 0 { return "" }
