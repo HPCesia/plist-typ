@@ -50,7 +50,7 @@ With the Monokai theme, the result of above code is:
 The plist data types supported by `pleast` are: `dict`, `array`, `date`, `string`, `integer`, `real`, `boolean`, and `data`. You can customize the parser for some types: `date`, `integer`, `real`, and `data`.
 
 The default parser behavior of `pleast` is as follows:
-- `date`: Uses `pleast.utils.parse-rfc3339()`, which **only** parses time strings in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format;
+- `date`: Uses [`pleast.utils.parse-rfc3339()`](./utils.typ), which **only** parses time strings in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format;
 - `integer`: Uses Typst's built-in `int`;
 - `real`: Uses Typst's built-in `float`;
 - `data`: No processing, directly outputs the Base64 string.
@@ -64,7 +64,7 @@ A plist xml file `HelloWorld.xml` with Base64 data:
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>helloWord</key>
+    <key>helloWorld</key>
     <data>
     SGVsbG8sIHdvcmxkIQ==
     </data>
@@ -83,7 +83,7 @@ And a typst file:
   parsers: (data: base64.decode),
 )
 
-#assert.eq(str(data.helloWord), "Hello, world!")
+#assert.eq(str(data.helloWorld), "Hello, world!")
 ```
 
 ## License
